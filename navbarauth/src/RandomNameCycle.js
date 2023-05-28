@@ -108,4 +108,3 @@ const RandomNameCycle = ({ names }) => {
 };
 
 export default RandomNameCycle;
-

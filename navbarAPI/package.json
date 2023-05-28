@@ -1,0 +1,14 @@
+{
+  "name": "navbarapi",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "func start",
+    "test": "echo \"No tests yet...\""
+  },
+  "dependencies": {
+    "@azure/identity": "^3.2.2",
+    "@azure/storage-blob": "^12.14.0",
+    "azure-storage": "^2.10.7"
+  }
+}
