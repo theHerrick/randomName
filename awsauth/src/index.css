@@ -1,0 +1,18 @@
+body {
+  font-family: 'Noto Sans', sans-serif!important;
+  min-height: 75rem;
+  padding-top: 4.5rem;
+}
+
+.navbar-custom {
+  background-color: #002A5E;
+}
+
+.content {
+  text-align: center;
+}
+
+.btn.btn-primary.btn-lg {
+  color: #FFF;
+  background-color: #0A2D66 !important;
+}
