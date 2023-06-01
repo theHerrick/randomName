@@ -1,36 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { ProfileData } from './ProfileData';
 import { useMsal } from '@azure/msal-react';
 import { loginRequest } from '../authConfig';
 import { callMsGraph } from '../graph';
 
 const ProfileContent = ({ graphValue }) => {
-  const { instance, accounts } = useMsal();
-  const [graphData, setGraphData] = useState(null);
-
-  useEffect(() => {
-    if (accounts.length > 0) {
-      RequestProfileData();
+    const { instance, accounts } = useMsal();
+    const [graphData, setGraphData] = useState(null);
+  
+    function RequestProfileData() {
+      // Silently acquires an access token which is then attached to a request for MS Graph data
+      instance
+        .acquireTokenSilent({
+          ...loginRequest,
+          account: accounts[0],
+        })
+        .then((response) => {
+          callMsGraph(response.accessToken).then((response) =>
+            setGraphData(response)
+          );
+        });
     }
-  }, [accounts]); // Run effect whenever the accounts array changes
-
-  function RequestProfileData() {
-    // Silently acquires an access token which is then attached to a request for MS Graph data
-    instance
-      .acquireTokenSilent({
-        ...loginRequest,
-        account: accounts[0],
-      })
-      .then((response) => {
-        callMsGraph(response.accessToken).then((response) =>
-          setGraphData(response)
-        );
-      });
-  }
-
-  return <>{graphData ? <ProfileData graphData={graphData} graphValue={graphValue} /> : null}</>;
-};
+  
+    let profileValue = null;
+    if (graphData && graphData.hasOwnProperty(graphValue)) {
+      profileValue = graphData[graphValue];
+    }
+  
+    // Call RequestProfileData wherever you want to execute it
+    RequestProfileData();
+  
+    return profileValue;
+  };
+  
 
 const Navbar = () => {
 const { accounts } = useMsal();
